@@ -27,10 +27,15 @@ namespace Pokedex.Manager.Services
 
         public async Task<PokemonSpeciesModel> GetDetails(string name)
         {
-            var response = await _httpClient.GetAsync(string.Format(_configurations.PokemonSpeciesURL, name));
+            var response = await _httpClient.GetAsync(string.Format(_configurations.PokemonSpeciesURL, name.ToLower()));
+
+            // Handle the case when not valid pokemon name provided
+            if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                throw new ArgumentException("NOT FOUND");
             response.EnsureSuccessStatusCode();
             var responseContent = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<PokemonSpeciesModel>(responseContent);
+
         }
     }
 }

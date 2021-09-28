@@ -9,6 +9,7 @@ using Pokedex.Common.Enums;
 using Pokedex.Manager;
 using Pokedex.Manager.Models;
 using Pokedex.Manager.Providers;
+using System;
 using System.Threading.Tasks;
 
 namespace Pokedex.Tests.IntegrationTests
@@ -96,11 +97,23 @@ namespace Pokedex.Tests.IntegrationTests
         }
 
         [TestMethod]
+        public async Task GetBasicInfo_Should_ReturnNotFound_When_PokemonNotFound()
+        {
+            _pokemonManager.GetPokemanBasicInfo(Arg.Any<string>())
+                .Returns(Task.FromException<PokemonModel>(new ArgumentException("NOT FOUND")));
+            var actionResult = await _pokemonController.GetBasicInfo(_testName);
+            Assert.IsInstanceOfType(actionResult, typeof(ObjectResult));
+            var response = (ObjectResult)actionResult;
+            Assert.AreEqual((int)response.StatusCode, APIConstants.HttpStatusCode_NotFound);
+            Assert.IsTrue(string.Compare(response.Value.ToString(), $"{_testName}: NOT FOUND", true) == 0);
+        }
+
+        [TestMethod]
         public async Task GetBasicInfo_Should_ReturnInternalServerError_WhenServiceFails()
         {
             _memoryCache_Pokemon.TryGetValue(Arg.Any<string>(), out Arg.Any<PokemonModel>()).Returns(false);
             _pokemonManager.GetPokemanBasicInfo(Arg.Any<string>())
-                .Returns(Task.FromException<PokemonModel>(new System.Exception("Error")));
+                .Returns(Task.FromException<PokemonModel>(new Exception("Error")));
             var actionResult = await _pokemonController.GetBasicInfo(_testName);
             Assert.IsInstanceOfType(actionResult, typeof(ObjectResult));
             var response = (ObjectResult)actionResult;
@@ -171,7 +184,7 @@ namespace Pokedex.Tests.IntegrationTests
         {
             _memoryCache_Pokemon.TryGetValue(Arg.Any<string>(), out Arg.Any<PokemonModel>()).Returns(false);
             _pokemonManager.GetPokemanBasicInfo(Arg.Any<string>())
-                .Returns(Task.FromException<PokemonModel>(new System.Exception("Error")));
+                .Returns(Task.FromException<PokemonModel>(new Exception("Error")));
             var actionResult = await _pokemonController.GetBasicInfo(_testName);
             Assert.IsInstanceOfType(actionResult, typeof(ObjectResult));
             var response = (ObjectResult)actionResult;

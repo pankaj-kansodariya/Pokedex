@@ -16,6 +16,7 @@ namespace Pokedex.Manager.Models
         }
         public PokemonModel(PokemonModel source)
         {
+            if (source == null) throw new System.ArgumentNullException(nameof(source), "Source object can not be null");
             Name = source?.Name;
             Description = source?.Description;
             Habitat = source?.Habitat;

@@ -54,6 +54,7 @@ namespace Pokedex.API.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(PokemonModel), APIConstants.HttpStatusCode_OK)]
         [ProducesResponseType(typeof(string), APIConstants.HttpStatusCode_BadRequest)]
+        [ProducesResponseType(typeof(string), APIConstants.HttpStatusCode_NotFound)]
         [ProducesResponseType(typeof(string), APIConstants.HttpStatusCode_InternalServerError)]
         public async Task<IActionResult> GetBasicInfo([FromRoute] string name)
         {
@@ -67,6 +68,12 @@ namespace Pokedex.API.Controllers
             }
             catch (Exception ex)
             {
+                if (ex is ArgumentException)
+                {
+                    var msg = $"{name}: NOT FOUND";
+                    _logger.LogError(ex, msg);
+                    return StatusCode(statusCode: APIConstants.HttpStatusCode_NotFound, value: msg);
+                }
                 _logger.LogError(ex, $"Error while GetBasicInfo for {name}");
                 return StatusCode(statusCode: APIConstants.HttpStatusCode_InternalServerError, value: APIConstants.ERROR_UnexpectedError);
             }
@@ -76,6 +83,7 @@ namespace Pokedex.API.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(PokemonModel), APIConstants.HttpStatusCode_OK)]
         [ProducesResponseType(typeof(string), APIConstants.HttpStatusCode_BadRequest)]
+        [ProducesResponseType(typeof(string), APIConstants.HttpStatusCode_NotFound)]
         [ProducesResponseType(typeof(string), APIConstants.HttpStatusCode_InternalServerError)]
         public async Task<IActionResult> GetTranslatedInfo([FromRoute] string name)
         {
@@ -101,6 +109,12 @@ namespace Pokedex.API.Controllers
             }
             catch (Exception ex)
             {
+                if (ex is ArgumentException)
+                {
+                    var msg = $"{name}: NOT FOUND";
+                    _logger.LogError(ex, msg);
+                    return StatusCode(statusCode: APIConstants.HttpStatusCode_NotFound, value: msg);
+                }
                 _logger.LogError(ex, $"Error while GetTranslatedInfo for {name}");
                 return StatusCode(statusCode: APIConstants.HttpStatusCode_InternalServerError, value: APIConstants.ERROR_UnexpectedError);
             }

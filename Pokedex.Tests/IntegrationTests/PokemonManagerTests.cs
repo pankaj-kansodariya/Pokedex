@@ -5,6 +5,7 @@ using Pokedex.Common.Enums;
 using Pokedex.Manager;
 using Pokedex.Manager.Services;
 using Pokedex.Manager.Services.Models;
+using System;
 using System.Threading.Tasks;
 
 namespace Pokedex.Tests.IntegrationTests
@@ -63,9 +64,16 @@ namespace Pokedex.Tests.IntegrationTests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public async Task GetPokemanBasicInfo_Should_ThrowException_When_PokemonNotFound()
+        {
+            _pokemonService.GetDetails(Arg.Any<string>()).Returns(Task.FromException<PokemonSpeciesModel>(new ArgumentException("Not Found")));
+            var result = await _pokemonManager.GetPokemanBasicInfo(_testContent);
+        }
+        [TestMethod]
         public async Task GetPokemanTranslation_Should_Return_Null_When_PassedInValidData()
         {
-            var result = await _pokemonManager.GetPokemanTranslation(null, Common.Enums.TranslationType.Yoda);
+            var result = await _pokemonManager.GetPokemanTranslation(null, TranslationType.Yoda);
             Assert.IsNull(result);
         }
 
@@ -73,7 +81,7 @@ namespace Pokedex.Tests.IntegrationTests
         public async Task GetPokemanTranslation_Should_Return_SameContent_When_TranslationFails()
         {
             _translationService.Translate(Arg.Any<string>(), Arg.Any<TranslationType>())
-                .Returns(Task.FromException<string>(new System.Exception("Error")));
+                .Returns(Task.FromException<string>(new Exception("Error")));
             var result = await _pokemonManager.GetPokemanTranslation(_testContent, TranslationType.Yoda);
             Assert.IsNotNull(result);
             Assert.IsTrue(string.Compare(result, _testContent, true) == 0);
