@@ -1,16 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Pokedex.Common.Configurations;
+using Pokedex.Manager;
+using Pokedex.Manager.Providers;
+using Pokedex.Manager.Services;
 
 namespace Pokedex.API
 {
@@ -28,6 +25,14 @@ namespace Pokedex.API
         {
 
             services.AddControllers();
+            services.AddMemoryCache();
+            services.Configure<PokemonServiceConfigurations>(Configuration.GetSection("PokemonService"));
+            services.Configure<TranslationServiceConfigurations>(Configuration.GetSection("TranslationService"));
+
+            services.AddHttpClient<IPokemonService, PokemonService>("PokemonService");
+            services.AddHttpClient<ITranslationService, TranslationService>("TranslationService");
+            services.AddSingleton<ITranslationProvider, TranslationProvider>();
+            services.AddTransient<IPokemonManager, PokemonManager>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Pokedex.API", Version = "v1" });

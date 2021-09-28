@@ -19,6 +19,8 @@ namespace Pokedex.Manager.Services
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             _configurations = configurationOptions?.Value ?? throw new ArgumentNullException(nameof(configurationOptions));
 
+            if (string.IsNullOrEmpty(_configurations.BaseURL))
+                throw new ArgumentNullException(nameof(configurationOptions), "BaseURL is missing for PokemonService");
             _httpClient.BaseAddress = new Uri(_configurations.BaseURL);
 
         }

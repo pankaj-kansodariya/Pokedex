@@ -18,12 +18,15 @@ namespace Pokedex.Manager.Services
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             _configurations = configurationOptions?.Value ?? throw new ArgumentNullException(nameof(configurationOptions));
+            if (string.IsNullOrEmpty(_configurations.BaseURL))
+                throw new ArgumentNullException(nameof(configurationOptions), "BaseURL is missing for TranslationService");
 
             _httpClient.BaseAddress = new Uri(_configurations.BaseURL);
         }
 
         public async Task<string> Translate(string content, TranslationType translationType)
         {
+            content = content.Replace("\n", " ");       // To avoid errors for line break
             var url = string.Format(_configurations.LanguageServiceURL, translationType.ToString().ToLower(), content);
             var response = await _httpClient.GetAsync(url);
             response.EnsureSuccessStatusCode();

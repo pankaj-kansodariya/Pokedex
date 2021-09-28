@@ -5,11 +5,16 @@ VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pokedex.API", "Pokedex.API\Pokedex.API.csproj", "{03F4BCFF-6F0F-49FB-9AA5-383EE4AF66A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pokedex.Common", "Pokedex.Common\Pokedex.Common.csproj", "{B8679F73-545D-4D8B-88A2-6D1986320C66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pokedex.Common", "Pokedex.Common\Pokedex.Common.csproj", "{B8679F73-545D-4D8B-88A2-6D1986320C66}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pokedex.Manager", "Pokedex.Manager\Pokedex.Manager.csproj", "{7705C3B2-874D-431D-94C1-F58973BE62F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pokedex.Manager", "Pokedex.Manager\Pokedex.Manager.csproj", "{7705C3B2-874D-431D-94C1-F58973BE62F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pokedex.Tests", "Pokedex.Tests\Pokedex.Tests.csproj", "{B7A7B6B9-DEFE-42C7-BF3E-C42396C27C90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pokedex.Tests", "Pokedex.Tests\Pokedex.Tests.csproj", "{B7A7B6B9-DEFE-42C7-BF3E-C42396C27C90}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E4EABE65-1C80-4B6F-8FFE-89F3213C0D54}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
