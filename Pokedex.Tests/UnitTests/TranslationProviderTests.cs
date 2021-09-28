@@ -1,10 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Pokedex.Common.Enums;
-using Pokedex.Common.Models;
+using Pokedex.Manager.Models;
 using Pokedex.Manager.Providers;
 using System;
 
-namespace Pokedex.Tests.Unit_Tests
+namespace Pokedex.Tests.UnitTests
 {
     [TestClass]
     public class TranslationProviderTests

@@ -1,5 +1,5 @@
 ﻿using Pokedex.Common.Enums;
-using Pokedex.Common.Models;
+using Pokedex.Manager.Models;
 using System;
 
 namespace Pokedex.Manager.Providers
