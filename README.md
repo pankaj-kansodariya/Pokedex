@@ -7,7 +7,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+What things you need to have installed in order to build/run the project
 
 ```
 .Net 5.0
@@ -36,7 +36,9 @@ Docker (to run container)
 
 # End points
 * GET /pokemon/\{pokemon name\}
+  * Returns Basic information for the given Pokemon
 * GET /pokemon/translated/\{pokemon name\} 
+  * Returns Basic information for the given Pokemon but translated description (Yoda or Shakespear)
 
 * Both APIs return following response type in case of Success
 <pre>
@@ -54,7 +56,7 @@ Docker (to run container)
     - 404 - Not Found - When Pokemon name doesn't exist.
     - 404 - Bad Request - When Pokemon name not provided.
     - 500 - Internal Error - Unexpected error during whole operation.
-<pre><code>string (reason of failure)</code></pre>.
+<pre><code>string (reason of failure)</code></pre>
     
 
 ## Downstream Dependencies
